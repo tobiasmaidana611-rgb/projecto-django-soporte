@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Reparación</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #f0f2f5;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        header a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #444;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .botones {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-guardar {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-guardar:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-cancelar {
+            background-color: #eee;
+            color: #555;
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="{% url 'lista_reparaciones' %}">← Volver al listado</a>
+            <h1>Nueva Reparación</h1>
+        </header>
+
+        <div class="card">
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="tecnico">Técnico</label>
+                    <input type="text" id="tecnico" name="tecnico" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="diagnostico">Diagnóstico</label>
+                    <textarea id="diagnostico" name="diagnostico"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <select id="estado" name="estado">
+                        <option value="ESPERA">En espera</option>
+                        <option value="REPARANDO">En reparación</option>
+                        <option value="FINALIZADO">Finalizado</option>
+                        <option value="ENTREGADO">Entregado</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_entrega">Fecha de entrega</label>
+                    <input type="date" id="fecha_entrega" name="fecha_entrega">
+                </div>
+
+                <div class="form-group">
+                    <label for="solucion">Solución</label>
+                    <textarea id="solucion" name="solucion"></textarea>
+                </div>
+
+                <div class="botones">
+                    <button type="submit" class="btn-guardar">Guardar reparación</button>
+                    <a href="{% url 'lista_reparaciones' %}" class="btn-cancelar">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

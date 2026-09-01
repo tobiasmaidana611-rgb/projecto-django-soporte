@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Reparaciones</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #f0f2f5;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #111;
+        }
+
+        header p {
+            color: #666;
+            margin-top: 6px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 16px 20px;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            border-bottom: 1px solid #eee;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #fafafa;
+        }
+
+        .estado {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .estado-espera {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .estado-reparando {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .estado-finalizado {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .estado-entregado {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .vacio {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .vacio p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <div>
+        <h1>Gestor de Reparaciones</h1>
+        <p>Administrá el estado de las reparaciones de forma simple y clara.</p>
+    </div>
+    <a href="{% url 'nueva_reparacion' %}" 
+       style="background-color: #3498db; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+        + Nueva reparación
+    </a>
+</header>
+
+        <div class="card">
+            {% if reparaciones %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Técnico</th>
+                        <th>Diagnóstico</th>
+                        <th>Estado</th>
+                        <th>Fecha de entrega</th>
+                        <th>Solución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in reparaciones %}
+                    <tr>
+                        <td><strong>{{ r.tecnico }}</strong></td>
+                        <td>{{ r.diagnostico|default:"—" }}</td>
+                        <td>
+                            {% if r.estado == "ESPERA" %}
+                                <span class="estado estado-espera">En espera</span>
+                            {% elif r.estado == "REPARANDO" %}
+                                <span class="estado estado-reparando">En reparación</span>
+                            {% elif r.estado == "FINALIZADO" %}
+                                <span class="estado estado-finalizado">Finalizado</span>
+                            {% elif r.estado == "ENTREGADO" %}
+                                <span class="estado estado-entregado">Entregado</span>
+                            {% else %}
+                                {{ r.estado }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if r.fecha_entrega %}
+                                {{ r.fecha_entrega|date:"d/m/Y" }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                        <td>{{ r.solucion|default:"—" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="vacio">
+                <p>No hay reparaciones registradas todavía.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
