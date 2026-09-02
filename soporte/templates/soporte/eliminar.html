@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Reparación - Gestor Técnico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #1e293b;
+            border-bottom: 1px solid #334155;
+            padding: 16px 0;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #38bdf8;
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #f1f5f9;
+            background-color: #334155;
+        }
+
+        /* Content */
+        .container {
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 40px 30px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #f8fafc;
+            margin-bottom: 14px;
+        }
+
+        p {
+            color: #94a3b8;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .botones {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        button, .btn-cancelar {
+            padding: 11px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-eliminar {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .btn-eliminar:hover {
+            background-color: #ef4444;
+        }
+
+        .btn-cancelar {
+            background-color: #334155;
+            color: #e2e8f0;
+        }
+
+        .btn-cancelar:hover {
+            background-color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="{% url 'inicio' %}" class="logo">Gestor Técnico</a>
+            <div class="nav-links">
+                <a href="{% url 'inicio' %}">Inicio</a>
+                <a href="{% url 'lista_reparaciones' %}">Reparaciones</a>
+                <a href="#">Técnicos</a>
+                <a href="/admin/">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h1>¿Eliminar esta reparación?</h1>
+            <p>
+                Técnico: <strong>{{ reparacion.tecnico }}</strong><br>
+                Diagnóstico: {{ reparacion.diagnostico|default:"Sin diagnóstico" }}
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="botones">
+                    <button type="submit" class="btn-eliminar">Sí, eliminar</button>
+                    <a href="{% url 'lista_reparaciones' %}" class="btn-cancelar">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

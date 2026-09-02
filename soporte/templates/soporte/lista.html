@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor de Reparaciones</title>
+    <title>Reparaciones - Gestor Técnico</title>
     <style>
         * {
             margin: 0;
@@ -13,36 +13,98 @@
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: #f0f2f5;
-            color: #1a1a1a;
-            line-height: 1.5;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
         }
 
+        /* Navbar */
+        nav {
+            background-color: #1e293b;
+            border-bottom: 1px solid #334155;
+            padding: 16px 0;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #38bdf8;
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #f1f5f9;
+            background-color: #334155;
+        }
+
+        /* Content */
         .container {
             max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 0 auto;
+            padding: 40px 20px;
         }
 
-        header {
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 30px;
         }
 
-        header h1 {
+        .header h1 {
             font-size: 1.8rem;
-            font-weight: 700;
-            color: #111;
+            color: #f8fafc;
         }
 
-        header p {
-            color: #666;
-            margin-top: 6px;
+        .header p {
+            color: #94a3b8;
+            margin-top: 4px;
+            font-size: 0.95rem;
         }
 
+        .btn-nueva {
+            background-color: #38bdf8;
+            color: #0f172a;
+            padding: 11px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .btn-nueva:hover {
+            background-color: #7dd3fc;
+        }
+
+        /* Card / Table */
         .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 14px;
             overflow: hidden;
         }
 
@@ -51,20 +113,26 @@
             border-collapse: collapse;
         }
 
+        thead {
+            background-color: #0f172a;
+        }
+
         th {
             text-align: left;
             padding: 16px 20px;
-            background-color: #f8f9fa;
+            font-size: 0.8rem;
             font-weight: 600;
-            font-size: 0.85rem;
-            color: #555;
-            border-bottom: 1px solid #eee;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-bottom: 1px solid #334155;
         }
 
         td {
             padding: 16px 20px;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #334155;
             font-size: 0.95rem;
+            color: #e2e8f0;
         }
 
         tr:last-child td {
@@ -72,60 +140,82 @@
         }
 
         tr:hover td {
-            background-color: #fafafa;
+            background-color: #1e293b;
         }
 
+        /* Estados */
         .estado {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .estado-espera {
-            background-color: #fff3cd;
-            color: #856404;
+            background-color: #422006;
+            color: #fbbf24;
         }
 
         .estado-reparando {
-            background-color: #cce5ff;
-            color: #004085;
+            background-color: #1e3a5f;
+            color: #38bdf8;
         }
 
         .estado-finalizado {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: #14532d;
+            color: #4ade80;
         }
 
         .estado-entregado {
-            background-color: #d1ecf1;
-            color: #0c5460;
+            background-color: #0c4a6e;
+            color: #7dd3fc;
+        }
+
+        .acciones a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 14px;
+        }
+
+        .btn-editar {
+            color: #38bdf8;
+        }
+
+        .btn-eliminar {
+            color: #f87171;
         }
 
         .vacio {
             text-align: center;
             padding: 60px 20px;
-            color: #888;
-        }
-
-        .vacio p {
-            margin-top: 10px;
+            color: #64748b;
         }
     </style>
 </head>
 <body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="{% url 'inicio' %}" class="logo">Gestor Técnico</a>
+            <div class="nav-links">
+                <a href="{% url 'inicio' %}">Inicio</a>
+                <a href="{% url 'lista_reparaciones' %}">Reparaciones</a>
+                <a href="#">Técnicos</a>
+                <a href="/admin/">Admin</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-       <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-    <div>
-        <h1>Gestor de Reparaciones</h1>
-        <p>Administrá el estado de las reparaciones de forma simple y clara.</p>
-    </div>
-    <a href="{% url 'nueva_reparacion' %}" 
-       style="background-color: #3498db; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600;">
-        + Nueva reparación
-    </a>
-</header>
+        <div class="header">
+            <div>
+                <h1>Reparaciones</h1>
+                <p>Listado de todas las reparaciones registradas</p>
+            </div>
+            <a href="{% url 'nueva_reparacion' %}" class="btn-nueva">+ Nueva reparación</a>
+        </div>
 
         <div class="card">
             {% if reparaciones %}
@@ -137,6 +227,7 @@
                         <th>Estado</th>
                         <th>Fecha de entrega</th>
                         <th>Solución</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -165,6 +256,10 @@
                             {% endif %}
                         </td>
                         <td>{{ r.solucion|default:"—" }}</td>
+                        <td class="acciones">
+                            <a href="{% url 'editar_reparacion' r.id %}" class="btn-editar">Editar</a>
+                            <a href="{% url 'eliminar_reparacion' r.id %}" class="btn-eliminar">Eliminar</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -176,5 +271,6 @@
             {% endif %}
         </div>
     </div>
+
 </body>
 </html>

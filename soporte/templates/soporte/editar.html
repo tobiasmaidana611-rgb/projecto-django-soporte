@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Reparación - Gestor Técnico</title>
+    <title>Editar Reparación - Gestor Técnico</title>
     <style>
         * {
             margin: 0;
@@ -176,7 +176,7 @@
     <div class="container">
         <header>
             <a href="{% url 'lista_reparaciones' %}">← Volver al listado</a>
-            <h1>Nueva Reparación</h1>
+            <h1>Editar Reparación</h1>
         </header>
 
         <div class="card">
@@ -184,37 +184,37 @@
                 {% csrf_token %}
 
                 <div class="form-group">
-                    <label for="tecnico">Técnico</label>
-                    <input type="text" id="tecnico" name="tecnico" required>
+                    <label>Técnico</label>
+                    <input type="text" name="tecnico" value="{{ reparacion.tecnico }}" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="diagnostico">Diagnóstico</label>
-                    <textarea id="diagnostico" name="diagnostico"></textarea>
+                    <label>Diagnóstico</label>
+                    <textarea name="diagnostico">{{ reparacion.diagnostico }}</textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="estado">Estado</label>
-                    <select id="estado" name="estado">
-                        <option value="ESPERA">En espera</option>
-                        <option value="REPARANDO">En reparación</option>
-                        <option value="FINALIZADO">Finalizado</option>
-                        <option value="ENTREGADO">Entregado</option>
+                    <label>Estado</label>
+                    <select name="estado">
+                        <option value="ESPERA" {% if reparacion.estado == "ESPERA" %}selected{% endif %}>En espera</option>
+                        <option value="REPARANDO" {% if reparacion.estado == "REPARANDO" %}selected{% endif %}>En reparación</option>
+                        <option value="FINALIZADO" {% if reparacion.estado == "FINALIZADO" %}selected{% endif %}>Finalizado</option>
+                        <option value="ENTREGADO" {% if reparacion.estado == "ENTREGADO" %}selected{% endif %}>Entregado</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="fecha_entrega">Fecha de entrega</label>
-                    <input type="date" id="fecha_entrega" name="fecha_entrega">
+                    <label>Fecha de entrega</label>
+                    <input type="date" name="fecha_entrega" value="{{ reparacion.fecha_entrega|date:'Y-m-d' }}">
                 </div>
 
                 <div class="form-group">
-                    <label for="solucion">Solución</label>
-                    <textarea id="solucion" name="solucion"></textarea>
+                    <label>Solución</label>
+                    <textarea name="solucion">{{ reparacion.solucion }}</textarea>
                 </div>
 
                 <div class="botones">
-                    <button type="submit" class="btn-guardar">Guardar reparación</button>
+                    <button type="submit" class="btn-guardar">Guardar cambios</button>
                     <a href="{% url 'lista_reparaciones' %}" class="btn-cancelar">Cancelar</a>
                 </div>
             </form>
